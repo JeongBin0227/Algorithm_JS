@@ -16,5 +16,5 @@ const compressString = text => {
         console.log(i[0],i[1])
     }
     
-
+}
 compressString(text)
