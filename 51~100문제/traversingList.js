@@ -10,24 +10,22 @@ const traversingList = (list, num) => {
     let idx = 0
     let traverList = []
     let c = []
-    
-    let b = list.slice('');
 
-    // for(let i=0; i<list.length;i++){
-    //     traverList[(i+num)%list.length] = list[i]
-    // }
+    for(let i=0; i<list.length;i++){
+        traverList[(i+num)%list.length] = list[i]
+    }
     
-    // for(let i=0; i<list.length;i++){
-    //     c.push(Math.abs(traverList[i]-list[i]))
-    // }
-    // //최솟값
-    // const d = Math.min.apply(null, c);
+    for(let i=0; i<list.length;i++){
+        c.push(Math.abs(traverList[i]-list[i]))
+    }
+    //최솟값
+    const d = Math.min.apply(null, c);
 		
-	// 	//최솟값의 인덱스 구하기
-    // idx = c.indexOf(d);
+	//최솟값의 인덱스 구하기
+    idx = c.indexOf(d);
 
-    // console.log('index: ', idx)
-    // console.log('value: ', traverList[idx],list[idx])
+    console.log('index: ', idx)
+    console.log('value: ', traverList[idx],list[idx])
 }
 
 const l = [10, 20, 25, 27, 34, 35, 39]
