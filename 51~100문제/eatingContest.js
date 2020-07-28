@@ -17,7 +17,6 @@ const eatingContest = (name, point) => {
         (a[1] < b[1] && 1) || (a[1] === b[1] ? 0 : -1)
     ))
 
-
     for (const j of mapAsc) {
         console.log(j)
         console.log(j[0])
