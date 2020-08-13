@@ -36,38 +36,303 @@ n	build_frame	                                                                  
 5	[[0,0,0,1],[2,0,0,1],[4,0,0,1],[0,1,1,1],[1,1,1,1],[2,1,1,1],[3,1,1,1],[2,0,0,0],[1,1,1,0],[2,2,0,1]] 	      [[0,0,0],[0,1,1],[1,1,1],[2,1,1],[3,1,1],[4,0,0]]
 `
 
+// function solution(n,build_frame){
+//     let answer = []
+//     //1. 기둥, 보 설치 가능 조건 만들기
+//     let setColumn = []
+//     let setBeam = []
+//     let availableColumnOfColumn = []
+//     let availableBeamOfColumn = []
+//     let availableColumnOfBeam = []
+//     let availableBeamOfBeam = []
+
+//     for(let i=0;i<n+1;i++){
+//         if(i===0){
+//             let tmp7 = new Array(n+1).fill(0)
+//             let tmp8 = new Array(n+1).fill(0)
+//             let tmp9 = new Array(n+1).fill(0)
+//             let tmp10 = new Array(n+1).fill(0)
+//             let tmp11 = new Array(n+1).fill(0)
+//             let tmp2 = new Array(n+1).fill(2)
+//             setColumn.push(tmp9)
+//             setBeam.push(tmp7)
+//             availableColumnOfColumn.push(tmp2)
+//             availableBeamOfColumn.push(tmp8)
+//             availableColumnOfBeam.push(tmp10)
+//             availableBeamOfBeam.push(tmp11)
+//         }
+//         else{
+//             let tmp1 = new Array(n+1).fill(0)
+//             let tmp2 = new Array(n+1).fill(0)
+//             let tmp3 = new Array(n+1).fill(0)
+//             let tmp4 = new Array(n+1).fill(0)
+//             let tmp5 = new Array(n+1).fill(0)
+//             let tmp6 = new Array(n+1).fill(0)
+//             setColumn.push(tmp3)
+//             setBeam.push(tmp4)
+//             availableColumnOfColumn.push(tmp1)
+//             availableBeamOfColumn.push(tmp2)
+//             availableColumnOfBeam.push(tmp5)
+//             availableBeamOfBeam.push(tmp6)
+//         }
+//     }
+
+//     //2. 조건 적합시 정답 배열에 넣기
+
+//     build_frame.forEach(cl=>{
+//         //1이면 넣기
+//         //0이면 기둥
+//         //1이면 보
+
+//         if(cl[3]===1){
+//             if(cl[2]===0){
+//                 //보위에, 땅, 기둥위
+//                 if((availableColumnOfColumn[cl[1]][cl[0]]===1 ||availableColumnOfColumn[cl[1]][cl[0]]===2 ||availableColumnOfBeam[cl[1]][cl[0]]===1)) {
+//                     answer.push([cl[0],cl[1],cl[2]])
+//                     //놓은자리
+//                     setColumn[cl[1]][cl[0]] = 1
+//                     // setColumn[cl[1]][cl[0]]= 2
+//                     //빔 놓을수 있는자리
+//                     availableColumnOfColumn[cl[1]+1][cl[0]] = 1
+//                     availableBeamOfColumn[cl[1]+1][cl[0]] = 1
+//                     // availableBeamOfColumn[cl[1]+1][cl[0]+1] = 1
+//                     availableBeamOfColumn[cl[1]+1][cl[0]-1] = 1
+//                 }
+//             }
+//             else{
+//                 //기둥있거나 || 양쪽에 보
+//                 if(availableBeamOfColumn[cl[1]][cl[0]]===1 || (availableBeamOfBeam[cl[1]][cl[0]]===1 &&setBeam[cl[1]][cl[0]+1]===1)) {
+//                     answer.push([cl[0],cl[1],cl[2]])
+//                     //놓은자리
+//                     setBeam[cl[1]][cl[0]]=1
+//                     // setBeam[cl[1]][cl[0]+1]=1
+//                     // setBeam[cl[1]][cl[0]+1]=2
+                    
+//                     //놓을수 있는자리
+//                     availableColumnOfBeam[cl[1]][cl[0]] = 1
+//                     availableColumnOfBeam[cl[1]][cl[0]+1] = 1
+
+//                     // if(setBeam[cl[1]][cl[0]+2]===1)availableBeamOfBeam[cl[1]][cl[0]+1]=1
+//                     availableBeamOfBeam[cl[1]][cl[0]+1]=1
+//                     if(cl[0]>1&&setBeam[cl[1]][cl[0]-2]===1)availableBeamOfBeam[cl[1]][cl[0]-1]=1
+//                     // setColumn[cl[1]][cl[0]+1] = 1
+//                 }
+//             }
+//         } 
+//         //0이면 삭제
+//         else {
+//             //기둥
+//             if(cl[2]===0){
+//                 // 1. 자기 위 기둥 없는지 
+//                 if( setColumn[cl[1]+1][cl[0]]!==1  ){
+//                     //2.양쪽에 보없는지
+//                     if(setBeam[cl[1]+1][cl[0]]===1){
+//                         if(setColumn[cl[1]][cl[0]+1]===1){
+//                             answer.forEach( (eachAns,index)=>{
+//                                 if(eachAns[0]===cl[0]&&eachAns[1]===cl[1]&&eachAns[2]===cl[2]) answer.splice(index,1);
+//                             })
+//                             availableColumnOfColumn[cl[1]+1][cl[0]]=0
+//                             // else availableColumnOfColumn[cl[1]][cl[0]]=0
+//                             setColumn[cl[1]][cl[0]]=0
+//                             availableBeamOfColumn[cl[1]+1][cl[0]]=0
+//                             availableBeamOfColumn[cl[1]+1][cl[0]-1]=0
+//                         }
+//                         else if(setBeam[cl[1]+1][cl[0]-1]===1){
+//                             answer.forEach( (eachAns,index)=>{
+//                                 if(eachAns[0]===cl[0]&&eachAns[1]===cl[1]&&eachAns[2]===cl[2]) answer.splice(index,1);
+//                             })
+//                             availableColumnOfColumn[cl[1]+1][cl[0]]=0
+//                             setColumn[cl[1]][cl[0]]=0
+//                             availableBeamOfColumn[cl[1]+1][cl[0]]=0
+//                             availableBeamOfColumn[cl[1]+1][cl[0]-1]=0
+//                         }
+//                     }
+//                     else if(availableBeamOfBeam[cl[1]+1][cl[0]]===1){
+//                         if(setColumn[cl[1]][cl[0]-1]===1){
+//                             answer.forEach( (eachAns,index)=>{
+//                                 if(eachAns[0]===cl[0]&&eachAns[1]===cl[1]&&eachAns[2]===cl[2]) answer.splice(index,1);
+//                             })
+//                             availableColumnOfColumn[cl[1]+1][cl[0]]=0
+//                             setColumn[cl[1]][cl[0]]=0
+//                             availableBeamOfColumn[cl[1]+1][cl[0]]=0
+//                             availableBeamOfColumn[cl[1]+1][cl[0]-1]=0
+//                         }
+//                     }
+//                     else{
+//                         answer.forEach( (eachAns,index)=>{
+//                             if(eachAns[0]===cl[0]&&eachAns[1]===cl[1]&&eachAns[2]===cl[2]) answer.splice(index,1);
+//                         })
+//                         if(cl[1]===0)availableColumnOfColumn[cl[1]][cl[0]]=2
+//                         else availableColumnOfColumn[cl[1]][cl[0]]=0
+//                         setColumn[cl[1]][cl[0]]=0
+//                         availableBeamOfColumn[cl[1]+1][cl[0]]=0
+//                         availableBeamOfColumn[cl[1]+1][cl[0]-1]=0
+//                     }
+//                     // if(cl[0]!==0){
+//                     //     if(setBeam[cl[1]+1][cl[0]-1]===2){
+//                     //         answer.forEach( (eachAns,index)=>{
+//                     //             if(eachAns[0]===cl[0]&&eachAns[1]===cl[1]&&eachAns[2]===cl[2]) answer.splice(index,1);
+//                     //         })
+//                     //         if(cl[1]===0){
+//                     //             setColumn[cl[1]][cl[0]]=1
+//                     //             availableBeamOfColumn[cl[1]+1][cl[0]] = 0
+//                     //             availableColumnOfBeam[cl[1]+1][cl[0]] = 0
+//                     //             if(cl[0]!==0)availableBeamOfColumn[cl[1]+1][cl[0]-1] = 0
+
+//                     //         }
+//                     //         else{
+//                     //             setColumn[cl[1]][cl[0]]=0
+//                     //             availableBeamOfColumn[cl[1]+1][cl[0]] = 0
+//                     //             availableColumnOfBeam[cl[1]+1][cl[0]] = 0
+//                     //             if(cl[0]!==0)availableBeamOfColumn[cl[1]+1][cl[0]-1] = 0
+//                     //         }
+//                     //     }
+//                     //     else{
+//                     //         if(setBeam[cl[1]+1][cl[0]-2]===2 && setBeam[cl[1]+1][cl[0]]===2){
+//                     //             answer.forEach( (eachAns,index)=>{
+//                     //                 if(eachAns[0]===cl[0]&&eachAns[1]===cl[1]&&eachAns[2]===cl[2]) answer.splice(index,1);
+//                     //             })
+//                     //             if(cl[1]===0){
+//                     //                 setColumn[cl[1]][cl[0]]=1
+//                     //                 availableBeamOfColumn[cl[1]+1][cl[0]] = 0
+//                     //                 availableColumnOfBeam[cl[1]+1][cl[0]] = 0
+//                     //                 if(cl[0]!==0)availableBeamOfColumn[cl[1]+1][cl[0]-1] = 0
+    
+//                     //             }
+//                     //             else{
+//                     //                 setColumn[cl[1]][cl[0]]=0
+//                     //                 availableBeamOfColumn[cl[1]+1][cl[0]] = 0
+//                     //                 availableColumnOfBeam[cl[1]+1][cl[0]] = 0
+//                     //                 if(cl[0]!==0)availableBeamOfColumn[cl[1]+1][cl[0]-1] = 0
+//                     //             }
+//                     //         }
+//                     //     }
+//                     // }
+//                     // else {
+//                     //     answer.forEach( (eachAns,index)=>{
+//                     //         if(eachAns[0]===cl[0]&&eachAns[1]===cl[1]&&eachAns[2]===cl[2]) answer.splice(index,1);
+//                     //     })
+//                     //     if(cl[1]===0){
+//                     //         setColumn[cl[1]][cl[0]]=1
+//                     //         availableBeamOfColumn[cl[1]+1][cl[0]] = 0
+//                     //         availableColumnOfBeam[cl[1]+1][cl[0]] = 0
+//                     //         if(cl[0]!==0)availableBeamOfColumn[cl[1]+1][cl[0]-1] = 0
+
+//                     //     }
+//                     //     else{
+//                     //         setColumn[cl[1]][cl[0]]=0
+//                     //         availableBeamOfColumn[cl[1]+1][cl[0]] = 0
+//                     //         availableColumnOfBeam[cl[1]+1][cl[0]] = 0
+//                     //         if(cl[0]!==0)availableBeamOfColumn[cl[1]+1][cl[0]-1] = 0
+//                     //     }
+//                     // }
+//                     //삭제
+//                 }
+//             }   
+//             //보
+//             else{
+//                 //1. 자기 양쪽의 옆에 보있는지 && 2. 자기 양쪽 위에 기둥 없는지
+//                 if(setColumn[cl[1]][cl[0]]!==1 &&setColumn[cl[1]][cl[0]+1]!==1){
+//                     if(setBeam[cl[1]][cl[0]+1]===1 ){
+//                         if(setColumn[cl[1]-1][cl[0]+1]===1){
+//                             answer.forEach( (eachAns,index)=>{
+//                                 if(eachAns[0]===cl[0]&&eachAns[1]===cl[1]&&eachAns[2]===cl[2]) answer.splice(index,1);
+//                             })
+//                             setBeam[cl[1]][cl[0]]=0
+//                             availableColumnOfBeam[cl[1]][cl[0]]=0
+//                             availableColumnOfBeam[cl[1]][cl[0]+1]=0
+//                             availableBeamOfBeam[cl[1]][cl[0]+1]=0
+//                             availableBeamOfBeam[cl[1]][cl[0]-2]=0
+//                         }
+//                     }
+//                     else if(setBeam[cl[1]][cl[0]-1]===1){
+//                         if(setColumn[cl[1]-1][cl[0]-1]===1){
+//                             answer.forEach( (eachAns,index)=>{
+//                                 if(eachAns[0]===cl[0]&&eachAns[1]===cl[1]&&eachAns[2]===cl[2]) answer.splice(index,1);
+//                             })
+//                             setBeam[cl[1]][cl[0]]=0
+//                             availableColumnOfBeam[cl[1]][cl[0]]=0
+//                             availableColumnOfBeam[cl[1]][cl[0]+1]=0
+//                             availableBeamOfBeam[cl[1]][cl[0]+1]=0
+//                             availableBeamOfBeam[cl[1]][cl[0]-2]=0
+//                         }
+//                     }
+//                     else{
+//                         answer.forEach( (eachAns,index)=>{
+//                             if(eachAns[0]===cl[0]&&eachAns[1]===cl[1]&&eachAns[2]===cl[2]) answer.splice(index,1);
+//                         })
+//                         setBeam[cl[1]][cl[0]]=0
+//                         availableColumnOfBeam[cl[1]][cl[0]]=0
+//                         availableColumnOfBeam[cl[1]][cl[0]+1]=0
+//                         availableBeamOfBeam[cl[1]][cl[0]+1]=0
+//                         availableBeamOfBeam[cl[1]][cl[0]-2]=0
+//                     }
+//                 }  
+//                 // if(  setBeam[cl[1]][cl[0]+1]!==2 &&setColumn[cl[1]][cl[0]]!==2){
+//                 //     if(cl[0]!==0){
+//                 //         if( setBeam[cl[1]][cl[0]-1]!==2 ){
+//                 //             answer.forEach( (eachAns,index)=>{
+//                 //                 if(eachAns[0]===cl[0]&&eachAns[1]===cl[1]&&eachAns[2]===cl[2]) answer.splice(index,1);
+//                 //             })
+//                 //             setBeam[cl[1]][cl[0]]=0
+//                 //             setBeam[cl[1]][cl[0]+1]=0
+                            
+//                 //             //놓을수 있는자리
+//                 //             availableColumnOfBeam[cl[1]][cl[0]] = 0
+//                 //             availableColumnOfBeam[cl[1]][cl[0]+1] = 0
+                            
+//                 //         }
+//                 //     }else {
+//                 //         answer.forEach( (eachAns,index)=>{
+//                 //             if(eachAns[0]===cl[0]&&eachAns[1]===cl[1]&&eachAns[2]===cl[2]) answer.splice(index,1);
+//                 //         })
+//                 //         setBeam[cl[1]][cl[0]]=0
+//                 //         setBeam[cl[1]][cl[0]+1]=0
+                        
+//                 //         //놓을수 있는자리
+//                 //         availableColumnOfBeam[cl[1]][cl[0]] = 0
+//                 //         availableColumnOfBeam[cl[1]][cl[0]+1] = 0
+//                 //     }
+                    
+//                 // }
+//             }
+//         }
+//     })
+    
+//     //3. 정답 배열 소팅
+//     answer.sort((a,b)=>{
+//         if (a[0] === b[0]) {
+//             if(a[1]===b[1]){
+//                 return (a[2] < b[2]) ? -1 : 1;
+//             }
+//             else return (a[1] < b[1]) ? -1 : 1;
+//     }
+//     else return (a[0] < b[0]) ? -1 : 1;
+//     }
+//     )
+//     // console.log(setColumn)
+//     // console.log(setBeam)
+//     // console.log(availableColumnOfColumn)
+//     // console.log(availableBeamOfColumn)
+//     // console.log(availableColumnOfBeam)
+//     // console.log(availableBeamOfBeam)
+
+//     return answer
+// }
+
+
+// const column = [[1,0,0,1],[1,1,1,1],[2,1,0,1],[2,2,1,1],[5,0,0,1],[5,1,0,1],[4,2,1,1],[3,2,1,1]]
+// const n = 5
+
+// // const column = [[0,0,0,1],[2,0,0,1],[4,0,0,1],[0,1,1,1],[1,1,1,1],[2,1,1,1],[3,1,1,1],[2,0,0,0],[1,1,1,0],[2,2,0,1]]
+// // const n = 5
+
+// console.log(solution(n,column))
+
+// https://jongbeom-dev.tistory.com/142
+
 function solution(n,build_frame){
     let answer = []
-    //1. 기둥, 보 설치 가능 조건 만들기
-    let availableColumn = []
-    let availableBeam = []
-    let availableBeamOfColumn = []
-    let availableColumnOfBeam = []
-
-    for(let i=0;i<n+1;i++){
-        if(i===0){
-            let tmp7 = new Array(n+1).fill(0)
-            let tmp8 = new Array(n+1).fill(0)
-            let tmp9 = new Array(n+1).fill(0)
-            let tmp2 = new Array(n+1).fill(1)
-            availableColumn.push(tmp2)
-            availableBeam.push(tmp7)
-            availableBeamOfColumn.push(tmp8)
-            availableColumnOfBeam.push(tmp9)
-        }
-        else{
-            let tmp3 = new Array(n+1).fill(0)
-            let tmp4 = new Array(n+1).fill(0)
-            let tmp5 = new Array(n+1).fill(0)
-            let tmp6 = new Array(n+1).fill(0)
-            availableColumn.push(tmp3)
-            availableBeam.push(tmp4)
-            availableBeamOfColumn.push(tmp5)
-            availableColumnOfBeam.push(tmp6)
-        }
-    }
-
-    //2. 조건 적합시 정답 배열에 넣기
 
     build_frame.forEach(cl=>{
         //1이면 넣기
@@ -76,131 +341,58 @@ function solution(n,build_frame){
 
         if(cl[3]===1){
             if(cl[2]===0){
+                if(checkColumn(answer,cl[0],cl[1]))answer.push([cl[0],cl[1],cl[2]])
                 //보위에, 땅, 기둥위
-                if((availableColumnOfBeam[cl[1]][cl[0]]===1)||availableColumn[cl[1]][cl[0]]===1||availableColumn[cl[1]][cl[0]]===2) {
-                    answer.push([cl[0],cl[1],cl[2]])
-                    //놓은자리
-                    availableColumn[cl[1]][cl[0]] = 2
-                    // availableColumn[cl[1]][cl[0]]= 2
-                    //빔 놓을수 있는자리
-                    availableBeamOfColumn[cl[1]+1][cl[0]] = 1
-                    availableColumnOfBeam[cl[1]+1][cl[0]] = 1
-                    // availableBeamOfColumn[cl[1]+1][cl[0]+1] = 1
-                    if(cl[0]-1!==-1)availableBeamOfColumn[cl[1]+1][cl[0]-1] = 1
-                }
             }
             else{
-                //기둥있거나 || 양쪽에 보
-                if((availableBeamOfColumn[cl[1]][cl[0]+1]===1)||availableBeamOfColumn[cl[1]][cl[0]+1]===1||(availableColumnOfBeam[cl[1]][cl[0]]===1&&availableBeam[cl[1]][cl[0]+1]===2)) {
-                    answer.push([cl[0],cl[1],cl[2]])
-                    //놓은자리
-                    availableBeam[cl[1]][cl[0]]=2
-                    // availableBeam[cl[1]][cl[0]+1]=2
-                    
-                    //놓을수 있는자리
-                    availableColumnOfBeam[cl[1]][cl[0]] = 1
-                    availableColumnOfBeam[cl[1]][cl[0]+1] = 1
-                    // availableColumn[cl[1]][cl[0]+1] = 1
-                }
+                if(checkFloor(answer,cl[0],cl[1]))answer.push([cl[0],cl[1],cl[2]])
             }
         } 
         //0이면 삭제
         else {
             //기둥
             if(cl[2]===0){
-                // 1. 자기 위 기둥 없는지 && 2.자기 왼쪽에 보없는지
-                if( availableColumn[cl[1]+1][cl[0]]!==2 ){
-                    if(cl[0]!==0){
-                        if(availableBeam[cl[1]+1][cl[0]-1]===2){
-                            answer.forEach( (eachAns,index)=>{
-                                if(eachAns[0]===cl[0]&&eachAns[1]===cl[1]&&eachAns[2]===cl[2]) answer.splice(index,1);
-                            })
-                            if(cl[1]===0){
-                                availableColumn[cl[1]][cl[0]]=1
-                                availableBeamOfColumn[cl[1]+1][cl[0]] = 0
-                                availableColumnOfBeam[cl[1]+1][cl[0]] = 0
-                                if(cl[0]!==0)availableBeamOfColumn[cl[1]+1][cl[0]-1] = 0
-
-                            }
-                            else{
-                                availableColumn[cl[1]][cl[0]]=0
-                                availableBeamOfColumn[cl[1]+1][cl[0]] = 0
-                                availableColumnOfBeam[cl[1]+1][cl[0]] = 0
-                                if(cl[0]!==0)availableBeamOfColumn[cl[1]+1][cl[0]-1] = 0
-                            }
-                        }
-                        else{
-                            if(availableBeam[cl[1]+1][cl[0]-2]===2 && availableBeam[cl[1]+1][cl[0]]===2){
-                                answer.forEach( (eachAns,index)=>{
-                                    if(eachAns[0]===cl[0]&&eachAns[1]===cl[1]&&eachAns[2]===cl[2]) answer.splice(index,1);
-                                })
-                                if(cl[1]===0){
-                                    availableColumn[cl[1]][cl[0]]=1
-                                    availableBeamOfColumn[cl[1]+1][cl[0]] = 0
-                                    availableColumnOfBeam[cl[1]+1][cl[0]] = 0
-                                    if(cl[0]!==0)availableBeamOfColumn[cl[1]+1][cl[0]-1] = 0
-    
-                                }
-                                else{
-                                    availableColumn[cl[1]][cl[0]]=0
-                                    availableBeamOfColumn[cl[1]+1][cl[0]] = 0
-                                    availableColumnOfBeam[cl[1]+1][cl[0]] = 0
-                                    if(cl[0]!==0)availableBeamOfColumn[cl[1]+1][cl[0]-1] = 0
-                                }
-                            }
-                        }
+                let tempFrame = Object.assign([], answer);
+                let result = true;
+                tempFrame.forEach( (eachAns,index)=>{
+                    if(eachAns[0]===cl[0]&&eachAns[1]===cl[1]&&eachAns[2]===cl[2]) tempFrame.splice(index,1);
+                })
+                for (let i=0; i<tempFrame.length; i++){
+                    if (tempFrame[i][2]==0){
+                        if(!checkColumn(tempFrame, tempFrame[i][0], tempFrame[i][1]))
+                            result = false;                              
+                    }else {
+                        if(!checkFloor(tempFrame,tempFrame[i][0], tempFrame[i][1]))
+                            result = false;
                     }
-                    else {
-                        answer.forEach( (eachAns,index)=>{
-                            if(eachAns[0]===cl[0]&&eachAns[1]===cl[1]&&eachAns[2]===cl[2]) answer.splice(index,1);
-                        })
-                        if(cl[1]===0){
-                            availableColumn[cl[1]][cl[0]]=1
-                            availableBeamOfColumn[cl[1]+1][cl[0]] = 0
-                            availableColumnOfBeam[cl[1]+1][cl[0]] = 0
-                            if(cl[0]!==0)availableBeamOfColumn[cl[1]+1][cl[0]-1] = 0
-
-                        }
-                        else{
-                            availableColumn[cl[1]][cl[0]]=0
-                            availableBeamOfColumn[cl[1]+1][cl[0]] = 0
-                            availableColumnOfBeam[cl[1]+1][cl[0]] = 0
-                            if(cl[0]!==0)availableBeamOfColumn[cl[1]+1][cl[0]-1] = 0
-                        }
-                    }
-                    //삭제
+                }
+                if (result){
+                    answer.forEach( (eachAns,index)=>{
+                        if(eachAns[0]===cl[0]&&eachAns[1]===cl[1]&&eachAns[2]===cl[2]) answer.splice(index,1);
+                    })
                 }
             }   
             //보
             else{
-                //1. 자기 양쪽의 옆에 보있는지 && 2. 자기 양쪽 위에 기둥 없는지  
-                if(  availableBeam[cl[1]][cl[0]+1]!==2 &&availableColumn[cl[1]][cl[0]]!==2){
-                    if(cl[0]!==0){
-                        if( availableBeam[cl[1]][cl[0]-1]!==2 ){
-                            answer.forEach( (eachAns,index)=>{
-                                if(eachAns[0]===cl[0]&&eachAns[1]===cl[1]&&eachAns[2]===cl[2]) answer.splice(index,1);
-                            })
-                            availableBeam[cl[1]][cl[0]]=0
-                            availableBeam[cl[1]][cl[0]+1]=0
-                            
-                            //놓을수 있는자리
-                            availableColumnOfBeam[cl[1]][cl[0]] = 0
-                            availableColumnOfBeam[cl[1]][cl[0]+1] = 0
-                            
-                        }
+                let tempFrame = Object.assign([], answer);
+                let result = true;
+                tempFrame.forEach( (eachAns,index)=>{
+                    if(eachAns[0]===cl[0]&&eachAns[1]===cl[1]&&eachAns[2]===cl[2]) tempFrame.splice(index,1);
+                })
+                for (let i=0; i<tempFrame.length; i++){
+                    if (tempFrame[i][2]==0){
+                        if(!checkColumn(tempFrame, tempFrame[i][0], tempFrame[i][1]))
+                            result = false;                              
                     }else {
-                        answer.forEach( (eachAns,index)=>{
-                            if(eachAns[0]===cl[0]&&eachAns[1]===cl[1]&&eachAns[2]===cl[2]) answer.splice(index,1);
-                        })
-                        availableBeam[cl[1]][cl[0]]=0
-                        availableBeam[cl[1]][cl[0]+1]=0
-                        
-                        //놓을수 있는자리
-                        availableColumnOfBeam[cl[1]][cl[0]] = 0
-                        availableColumnOfBeam[cl[1]][cl[0]+1] = 0
+                        if(!checkFloor(tempFrame,tempFrame[i][0], tempFrame[i][1]))
+                            result = false;
                     }
-                    
                 }
+                if (result){
+                    answer.forEach( (eachAns,index)=>{
+                        if(eachAns[0]===cl[0]&&eachAns[1]===cl[1]&&eachAns[2]===cl[2]) answer.splice(index,1);
+                    })
+                } 
             }
         }
     })
@@ -216,19 +408,48 @@ function solution(n,build_frame){
     else return (a[0] < b[0]) ? -1 : 1;
     }
     )
-    console.log(availableColumn)
-    console.log(availableBeam)
-    console.log(availableBeamOfColumn)
-    console.log(availableColumnOfBeam)
-
     return answer
 }
 
+function checkColumn(currentFrame, x, y){
+    let result = false;
+    // 바닥이면 항상 기둥 설치 가능
+    if (y ===0){
+        result = true;
+    // 밑에 기둥이 있으면 설치 가능
+    }else if (currentFrame.find(ele => (ele[0]===x && ele[1]===(y-1) && ele[2] ===0)) !== undefined){
+        result = true;
+    // 왼쪽에 보가 있으면 설치 가능
+    }else if (currentFrame.find(ele => (ele[0]===x-1 && ele[1]===y && ele[2] ===1)) !== undefined){
+        result = true;
+    // 그 위치에 보가 있으면 설치 가능
+    }else if(currentFrame.find(ele => (ele[0]===x && ele[1]===y && ele[2] ===1)) !== undefined){
+        result = true;
+    }
+    return result;
+}
 
-const column = [[1,0,0,1],[1,1,1,1],[2,1,0,1],[2,2,1,1],[5,0,0,1],[5,1,0,1],[4,2,1,1],[3,2,1,1]]
-const n = 5
 
-// const column = [[0,0,0,1],[2,0,0,1],[4,0,0,1],[0,1,1,1],[1,1,1,1],[2,1,1,1],[3,1,1,1],[2,0,0,0],[1,1,1,0],[2,2,0,1]]
+function checkFloor(currentFrame, x, y){
+    let result = false;
+     // 밑에 기둥이 있으면 설치 가능
+    if (currentFrame.find(ele => (ele[0]===x && ele[1]===(y-1) && ele[2] ===0)) !== undefined){
+        result = true;
+    // 오른쪽 밑에 기둥이 있을때 설치 가능
+    }else if(currentFrame.find(ele => (ele[0]===(x+1) && ele[1]===(y-1) && ele[2] ===0)) !== undefined){
+        result = true;
+    // 왼쪽과 오른쪽에 보가 위치할 때 설치 가능
+    }else if ((currentFrame.find(ele => (ele[0]===x-1 && ele[1]===y && ele[2] ===1)) !== undefined)
+    &&(currentFrame.find(ele => (ele[0]===(x+1) && ele[1]===y && ele[2] ===1)) !== undefined)){
+        result = true;
+    }
+    return result;
+}
+
+// const column = [[1,0,0,1],[1,1,1,1],[2,1,0,1],[2,2,1,1],[5,0,0,1],[5,1,0,1],[4,2,1,1],[3,2,1,1]]
 // const n = 5
+
+const column = [[0,0,0,1],[2,0,0,1],[4,0,0,1],[0,1,1,1],[1,1,1,1],[2,1,1,1],[3,1,1,1],[2,0,0,0],[1,1,1,0],[2,2,0,1]]
+const n = 5
 
 console.log(solution(n,column))
