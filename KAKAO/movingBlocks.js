@@ -33,9 +33,13 @@ board	                                                                          
 
 function solution(board) {
     let answer = Infinity;
-    console.log(answer)
-    let tmp = movingBlock(board,0,0,0,1,0)
-    console.log(tmp)
+    let visited = []
+    for(let i=0; i<board.length;i++){
+        let tmp = new Array(board.length).fill(0)
+        visited.push(tmp)
+    }
+    console.log(visited)
+    let tmp = movingBlock(board,visited,0,0,0,1,0)
 
     console.log(tmp)
     if(answer>tmp) answer = tmp
@@ -43,8 +47,9 @@ function solution(board) {
 
 }
 
-function movingBlock(board,point1_x,point1_y,point2_x,point2_y,time){
+function movingBlock(board,visited,point1_x,point1_y,point2_x,point2_y,time){
     console.log(board)
+    console.log(visited)
     console.log(point1_x)
     console.log(point1_y)
     console.log(point2_x)
@@ -52,27 +57,35 @@ function movingBlock(board,point1_x,point1_y,point2_x,point2_y,time){
     if(board.length-1===point2_x&&board.length-1===point2_y) return time
 
     //가로
-    if(board[point2_x][point2_y+1]!==2 && point1_x===point2_x && board.length-1>point1_x  && board.length-1>point1_y && board.length-1>point2_x && board.length-1>point2_y && board[point2_x][point2_y+1]===0){
-        board[point2_x][point2_y+1]=2
-        movingBlock(board,point2_x,point2_y,point2_x,point2_y+1,time+1)
+    if(board.length-1>point1_x  && board.length-1>point1_y && board.length-1>point2_x && board.length-1>point2_y &&visited[point2_x][point2_y+1]!==2 && board[point2_x][point2_y+1]!==2 && point1_x===point2_x && board[point2_x][point2_y+1]===0){
+        visited[point2_x][point2_y+1]=2
+        movingBlock(board,visited,point2_x,point2_y,point2_x,point2_y+1,time+1)
        
     }
-    if(point1_x===point2_x && board.length-1>point1_x  && board.length-1>point1_y && board.length-1>point2_x && board.length-1>point2_y && board[point1_x+1][point1_y]===0 && board[point2_x+1][point2_y]===0) {
-        movingBlock(board,point1_x,point1_y,point2_y,point2_x,time+1)
-        movingBlock(board,point2_x,point2_y,point1_x+1,point1_y+1,time+1)
+    if(board.length-1>point1_x  && board.length-1>point1_y && board.length-1>point2_x && board.length-1>point2_y &&visited[point2_x+1][point2_y-1]!==2 && point1_x===point2_x &&  board[point1_x+1][point1_y]===0 && board[point2_x+1][point2_y]===0) {
+    visited[point2_x+1][point2_y-1]=2
+        movingBlock(board,visited,point1_x,point1_y,point2_x+1,point2_y-1,time+1)
+    }
+    if(board.length-1>point1_x  && board.length-1>point1_y && board.length-1>point2_x && board.length-1>point2_y &&visited[point1_x+1][point1_y+1]!==2 && point1_x===point2_x && board[point1_x+1][point1_y]===0 && board[point2_x+1][point2_y]===0) {
+        visited[point1_x+1][point1_y+1]=2
+        movingBlock(board,visited,point2_x,point2_y,point1_x+1,point1_y+1,time+1)
     }
     //세로
-    if(point1_y===point2_y && board.length-1>point1_x  && board.length-1>point1_y && board.length-1>point2_x && board.length-1>point2_y && board[point2_x+1][point2_y]===0){
-        movingBlock(board,point2_x,point2_y,point2_x+1,point2_y,time+1)
-        
+    if(board.length-1>point1_x  && board.length-1>point1_y && board.length-1>point2_x && board.length-1>point2_y &&visited[point1_x+1][point1_y]!==2 && point1_y===point2_y && board[point2_x+1][point2_y]===0){
+        visited[point1_x+1][point1_y]=2
+        movingBlock(board,visited,point2_x,point2_y,point2_x+1,point2_y,time+1)
     }
-    if(point1_y===point2_y && board.length-1>point1_x  && board.length-1>point1_y && board.length-1>point2_x && board.length-1>point2_y && board[point1_x][point1_y+1]===0 && board[point2_x][point2_y+1]===0) {
-        movingBlock(board,point1_x,point1_y,point2_y,point2_x,time+1)
-        movingBlock(board,point2_x,point2_y,point1_x+1,point1_y+1,time+1)
+    if(board.length-1>point1_x  && board.length-1>point1_y && board.length-1>point2_x && board.length-1>point2_y &&visited[point2_y][point2_x]!==2 !== point1_y===point2_y && board[point1_x][point1_y+1]===0 && board[point2_x][point2_y+1]===0) {
+        visited[point2_x-1][point2_y+1]=2
+        movingBlock(board,visited,point1_x,point1_y,point2_x-1,point2_y+1,time+1)
     }
-    
-
+    if(board.length-1>point1_x  && board.length-1>point1_y && board.length-1>point2_x && board.length-1>point2_y &&visited[point1_x+1][point1_y+1]!==2 && point1_y===point2_y &&  board[point1_x][point1_y+1]===0 && board[point2_x][point2_y+1]===0) {
+        visited[point1_x+1][point1_y+1]=2
+        movingBlock(board,visited,point2_x,point2_y,point1_x+1,point1_y+1,time+1)
+    }
 }
 
 const board= [[0, 0, 0, 1, 1],[0, 0, 0, 1, 0],[0, 1, 0, 1, 1],[1, 1, 0, 0, 1],[0, 0, 0, 0, 0]]
 solution(board)
+
+// board.length-1>point1_x  && board.length-1>point1_y && board.length-1>point2_x && board.length-1>point2_y &&
