@@ -38,8 +38,7 @@ function solution(board) {
         let tmp = new Array(board.length).fill(0)
         visited.push(tmp)
     }
-    console.log(visited)
-    let tmp = movingBlock(board,visited,0,0,0,1,0)
+    let tmp = movingBlock(board,0,1,0,3)
 
     console.log(tmp)
     if(answer>tmp) answer = tmp
@@ -47,42 +46,190 @@ function solution(board) {
 
 }
 
-function movingBlock(board,visited,point1_x,point1_y,point2_x,point2_y,time){
-    console.log(board)
-    console.log(visited)
-    console.log(point1_x)
-    console.log(point1_y)
-    console.log(point2_x)
-    console.log(point2_y)
-    if(board.length-1===point2_x&&board.length-1===point2_y) return time
+function inBoard(board,point1_x,point1_y,num1,num2){
+    // console.log('point1_x+num1',point1_x+num1)
+    // console.log('point1_y+num2',point1_y+num2)
+    if(board.length>point1_x+num1 && board.length>point1_y+num2 && point1_x+num1> -1 && point1_y+num2> -1) return true
+    else false
+}
 
-    //가로
-    if(board.length-1>point1_x  && board.length-1>point1_y && board.length-1>point2_x && board.length-1>point2_y &&visited[point2_x][point2_y+1]!==2 && board[point2_x][point2_y+1]!==2 && point1_x===point2_x && board[point2_x][point2_y+1]===0){
-        visited[point2_x][point2_y+1]=2
-        movingBlock(board,visited,point2_x,point2_y,point2_x,point2_y+1,time+1)
+function checkMovingInBoard(board,point1_x,point1_y,position){
+    // console.log('이동실행')
+    //상하좌우
+    let arrow=[[-1,0],[1,0],[0,-1],[0,1]]
+    let num = arrow[position]
+    if(board.length>point1_x+num[0] && board.length>point1_y+num[1] && board[point1_x+num[0]][point1_y+num[1]]===0) return true
+    else false 
+}
+
+function checkRotationInBoard(board,point1_x,point1_y,position,rt){
+    // console.log('로테실행')
+
+    let rota=[
+                [
+                    [
+                        [0,-1],[1,-1],
+                    ],
+                    [
+                        [0,1],[1,1]
+                    ]
+                      
+                ],
+                [
+                    [
+                        [-1,-1],[0,-1],
+                    ],
+                    [
+                        [-1,1],[0,1]
+                    ]
+                      
+                ],
+                [
+                    [
+                        [-1,0],[-1,1],
+                    ],
+                    [
+                        [1,0],[1,1]
+                    ]
+                      
+                ],
+                [
+                    [
+                        [-1,-1],[-1,0],
+                    ],
+                    [
+                        [1,-1],[1,0]
+                    ]
+                ],
+            ]
+            // console.log('s',point1_x , rota[position][rt][0][0], point1_y , rota[position][rt][0][1])
+            // console.log('s',point1_x , rota[position][rt][1][0], point1_y , rota[position][rt][1][1])
+
+    if(inBoard(board,point1_x,point1_y,rota[position][rt][0][0],rota[position][rt][0][1]) && 
+        inBoard(board,point1_x,point1_y,rota[position][rt][1][0],rota[position][rt][1][1])){
+        // console.log('ss',point1_x , rota[position][rt][0][0], point1_y , rota[position][rt][0][1])
+        // console.log('ss',point1_x , rota[position][rt][1][0], point1_y , rota[position][rt][1][1])
+        if( board[point1_x + rota[position][rt][0][0]][point1_y + rota[position][rt][0][1]] ===0 &&
+            board[point1_x + rota[position][rt][1][0]][point1_y + rota[position][rt][1][1]] ===0
+        )
        
+        {console.log('ss')
+
+            return true
+        }
     }
-    if(board.length-1>point1_x  && board.length-1>point1_y && board.length-1>point2_x && board.length-1>point2_y &&visited[point2_x+1][point2_y-1]!==2 && point1_x===point2_x &&  board[point1_x+1][point1_y]===0 && board[point2_x+1][point2_y]===0) {
-    visited[point2_x+1][point2_y-1]=2
-        movingBlock(board,visited,point1_x,point1_y,point2_x+1,point2_y-1,time+1)
+    else {
+
+        
+        return false
     }
-    if(board.length-1>point1_x  && board.length-1>point1_y && board.length-1>point2_x && board.length-1>point2_y &&visited[point1_x+1][point1_y+1]!==2 && point1_x===point2_x && board[point1_x+1][point1_y]===0 && board[point2_x+1][point2_y]===0) {
-        visited[point1_x+1][point1_y+1]=2
-        movingBlock(board,visited,point2_x,point2_y,point1_x+1,point1_y+1,time+1)
+    // if(position===0){
+    //     if(board[point1_x + rota[position][rt][0][0]===0&&board[point1_y + rota[position][rt][0][1]]] &&
+    //         board[point1_x + rota[position][rt][1][0]===0&&board[point1_y + rota[position][rt][1][1]]]
+    //     )return true
+    //     else false
+    // }
+    // else if(position===1){
+    //     if(board[point1_x + rota[position][rt][0][0]===0&&board[point1_y + rota[position][rt][0][1]]] &&
+    //         board[point1_x + rota[position][rt][1][0]===0&&board[point1_y + rota[position][rt][1][1]]]
+    //     )return true
+    //     else false
+    // }
+    // else if(position===2){
+    //     if(board[point1_x + rota[position][rt][0][0]===0&&board[point1_y + rota[position][rt][0][1]]] &&
+    //         board[point1_x + rota[position][rt][1][0]===0&&board[point1_y + rota[position][rt][1][1]]]
+    //     )return true
+    //     else false
+    // }
+    // else if(position===3){
+    //     if(board[point1_x + rota[position][rt][0][0]===0&&board[point1_y + rota[position][rt][0][1]]] &&
+    //         board[point1_x + rota[position][rt][1][0]===0&&board[point1_y + rota[position][rt][1][1]]]
+    //     )return true
+    //     else false
+    // }
+}
+
+function movingBlock(board,point1_x,point1_y,time,target){
+    let queueBlock = []
+    queueBlock.push([point1_x,point1_y,target])
+    while(queueBlock.length!==0){
+
+        console.log('a',queueBlock)
+        const tmp = queueBlock.shift()
+        const x1 = tmp[0]
+        const y1 = tmp[1]
+        const target = tmp[2]
+        
+        time++
+
+        if(board.length-1===x1&&board.length-1===y1) return time
+
+        if(target===0){
+            //상 이동
+            if(checkMovingInBoard(board,x1,y1,0)) queueBlock.push([x1-1,y1,0])
+            //회전
+            if(checkRotationInBoard(board,x1,y1,0,0))queueBlock.push([x1+1,y1-1,3])
+            if(checkRotationInBoard(board,x1,y1,0,1))queueBlock.push([x1-1,y1,2])
+
+        }
+        if(target===1){
+            //하 이동
+            if(checkMovingInBoard(board,x1,y1,1)) queueBlock.push([x1+1,y1,1])
+            //회전
+            if(checkRotationInBoard(board,x1,y1,1,0))queueBlock.push([x1+1,y1+1,2])
+            if(checkRotationInBoard(board,x1,y1,1,1))queueBlock.push([x1-1,y1+1,3])
+
+        }
+        if(target===2){
+            if(checkMovingInBoard(board,x1,y1,2)) queueBlock.push([x1,y1-1,2])
+            //회전
+            if(checkRotationInBoard(board,x1,y1,2,0))queueBlock.push([x1-1,y1+1,0])
+            if(checkRotationInBoard(board,x1,y1,2,1))queueBlock.push([x1+1,y1+1,1])
+        }
+        if(target===3){
+            if(checkMovingInBoard(board,x1,y1,3)) queueBlock.push([x1,y1+1,3])
+            //회전
+            if(checkRotationInBoard(board,x1,y1,3,0))queueBlock.push([x1-1,y1-1,0])
+            if(checkRotationInBoard(board,x1,y1,3,1))queueBlock.push([x1+1,y1-1,1])
+        
+        }
+        //상하좌우 이동
+
+        //회전
+
+
     }
-    //세로
-    if(board.length-1>point1_x  && board.length-1>point1_y && board.length-1>point2_x && board.length-1>point2_y &&visited[point1_x+1][point1_y]!==2 && point1_y===point2_y && board[point2_x+1][point2_y]===0){
-        visited[point1_x+1][point1_y]=2
-        movingBlock(board,visited,point2_x,point2_y,point2_x+1,point2_y,time+1)
-    }
-    if(board.length-1>point1_x  && board.length-1>point1_y && board.length-1>point2_x && board.length-1>point2_y &&visited[point2_y][point2_x]!==2 !== point1_y===point2_y && board[point1_x][point1_y+1]===0 && board[point2_x][point2_y+1]===0) {
-        visited[point2_x-1][point2_y+1]=2
-        movingBlock(board,visited,point1_x,point1_y,point2_x-1,point2_y+1,time+1)
-    }
-    if(board.length-1>point1_x  && board.length-1>point1_y && board.length-1>point2_x && board.length-1>point2_y &&visited[point1_x+1][point1_y+1]!==2 && point1_y===point2_y &&  board[point1_x][point1_y+1]===0 && board[point2_x][point2_y+1]===0) {
-        visited[point1_x+1][point1_y+1]=2
-        movingBlock(board,visited,point2_x,point2_y,point1_x+1,point1_y+1,time+1)
-    }
+    // if(board.length-1===point2_x&&board.length-1===point2_y) return time
+
+    // //가로
+    // if(board.length-1>point1_x  && board.length-1>point1_y && board.length-1>point2_x && board.length-1>point2_y &&visited[point2_x][point2_y+1]!==2 && board[point2_x][point2_y+1]!==2 && point1_x===point2_x && board[point2_x][point2_y+1]===0){
+    //     visited[point2_x][point2_y+1]=2
+    //     movingBlock(board,visited,point2_x,point2_y,point2_x,point2_y+1,time+1)
+       
+    // }
+    // console.log('sa')
+    // if(board.length-1>point1_x  && board.length-1>point1_y && board.length-1>point2_x && board.length-1>point2_y &&visited[point2_x+1][point2_y-1]!==2 && point1_x===point2_x &&  board[point1_x+1][point1_y]===0 && board[point2_x+1][point2_y]===0) {
+    // visited[point2_x+1][point2_y-1]=2
+    //     movingBlock(board,visited,point1_x,point1_y,point2_x+1,point2_y-1,time+1)
+    // }
+    // if(board.length-1>point1_x  && board.length-1>point1_y && board.length-1>point2_x && board.length-1>point2_y &&visited[point1_x+1][point1_y+1]!==2 && point1_x===point2_x && board[point1_x+1][point1_y]===0 && board[point2_x+1][point2_y]===0) {
+    //     visited[point1_x+1][point1_y+1]=2
+    //     movingBlock(board,visited,point2_x,point2_y,point1_x+1,point1_y+1,time+1)
+    // }
+    // //세로
+    // if(board.length-1>point1_x  && board.length-1>point1_y && board.length-1>point2_x && board.length-1>point2_y &&visited[point1_x+1][point1_y]!==2 && point1_y===point2_y && board[point2_x+1][point2_y]===0){
+    //     visited[point1_x+1][point1_y]=2
+    //     movingBlock(board,visited,point2_x,point2_y,point2_x+1,point2_y,time+1)
+    // }
+    // if(board.length-1>point1_x  && board.length-1>point1_y && board.length-1>point2_x && board.length-1>point2_y &&visited[point2_y][point2_x]!==2 !== point1_y===point2_y && board[point1_x][point1_y+1]===0 && board[point2_x][point2_y+1]===0) {
+    //     visited[point2_x-1][point2_y+1]=2
+    //     movingBlock(board,visited,point1_x,point1_y,point2_x-1,point2_y+1,time+1)
+    // }
+    // console.log('sas')
+    // if(board.length-1>point1_x  && board.length-1>point1_y && board.length-1>point2_x && board.length-1>point2_y &&visited[point1_x+1][point1_y+1]!==2 && point1_y===point2_y &&  board[point1_x][point1_y+1]===0 && board[point2_x][point2_y+1]===0) {
+    //     visited[point1_x+1][point1_y+1]=2
+    //     movingBlock(board,visited,point2_x,point2_y,point1_x+1,point1_y+1,time+1)
+    // }
 }
 
 const board= [[0, 0, 0, 1, 1],[0, 0, 0, 1, 0],[0, 1, 0, 1, 1],[1, 1, 0, 0, 1],[0, 0, 0, 0, 0]]
