@@ -37,7 +37,7 @@ function getAllCombinations(arr,m) {
     const combinations = [];
     let used = [];
     let picked = [];
-    for (item of arr) used.push(0);
+    for (let item of arr) used.push(0);
   
     function find(picked) {
       if (picked.length === m) {
@@ -72,55 +72,42 @@ function solution(relation) {
     let answer = 0;
     let relationSum = []
     
-    getAllCombinations(relation[0],1).forEach(a=>relationSum.push(a))
-    getAllCombinations(relation[0],2).forEach(a=>relationSum.push(a))
-    getAllCombinations(relation[0],3).forEach(a=>relationSum.push(a))
-    getAllCombinations(relation[0],4).forEach(a=>relationSum.push(a))
+    for(let i = 1 ; i< relation[0].length+1;i++){
+      getAllCombinations(relation[0],i).forEach(a=>relationSum.push(a))
+    }
+        let position = 0
+        while(relationSum.length>0){
+          
+          let tmp = new Map()
+          for(let i=0;i<relation.length;i++){
+            let relationTmp = ''
+            for(let z=0;z<relationSum[position].length;z++){
+              relationTmp += relation[i][relationSum[position][z]]
 
-    // relationSum.push(getAllCombinations(relation[0],2))
-    // relationSum.push(getAllCombinations(relation[0],3))
-    // relationSum.push(getAllCombinations(relation[0],4))
+            }
+            if(tmp.get(relationTmp)===undefined) tmp.set(relationTmp,1)
+            else break
 
-    // for(let i=0;i<relationSum.length;i++){
-      let position = 0
-      while(relationSum.length>0){
-        let tmp = new Map()
-
-        for(let j=0;j<relation.length;j++){
-          let relationTmp = ''
-
-          for(let z=0;z<relationSum[position].length;z++){
-            // console.log('a',relationSum[i][z])
-            relationTmp += relation[j][relationSum[position][z]]
-            
-          }
-
-          if(tmp.get(relationTmp)===undefined) tmp.set(relationTmp,1)
-          else break
-          if(j===relation.length-1){
-            answer++
-            console.log(relationTmp)
-            relationSum = relationSum.filter(a=>{
-              console.log(a)
-              console.log('b',relationSum[position])
-
-              let check = true
-              for(let w=0;w<relationSum[position].length;w++){
-                if(a.includes(relationSum[position][w])){
-                  check=false
-                  break
+            if(i===relation.length-1){
+              console.log(relationSum[position])
+              relationSum = relationSum.filter(a=>{
+                let check = 0
+                for(let w=0;w<relationSum[position].length;w++){
+                  if(a.includes(relationSum[position][w])){
+                    check++
+                  }
                 }
-              }
-              if(check) return a
-            })
-            console.log('c',relationSum)
-            position=0
+                if(check!==relationSum[position].length) return a
+              })
+
+              answer++
+              position=-1
+            }
           }
           position++
+          if(relationSum.length===position) break
         }
-        // position++
-      }
-    // }
+
     return answer;
 }
 
@@ -130,8 +117,14 @@ function test(){
   // a=a.filter(element => element.indexOf(0)===-1 ?element :'');
   console.log(b)
 }
-const relation =[["100","ryan","music","2"],["200","apeach","math","2"],["300","tube","computer","3"],["400","con","computer","4"],["500","muzi","music","3"],["600","apeach","music","2"]]
-
+// const relation =[["100","ryan","music","2"],["200","apeach","math","2"],["300","tube","computer","3"],["400","con","computer","4"],["500","muzi","music","3"],["600","apeach","music","2"]]
+const relation = [
+  ["b","2","a","a","b"],
+  ["b","2","7","1","b"],
+  ["1","0","a","a","8"],
+  ["7","5","a","a","9"],
+  ["3","0","a","f","9"],
+]
 console.log(solution(relation))
 // test()
 
