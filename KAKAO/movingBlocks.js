@@ -143,13 +143,13 @@ function checkRotationInBoard(board,point1_x,point1_y,position,rt){
     // }
     // else if(position===3){
     //     if(board[point1_x + rota[position][rt][0][0]===0&&board[point1_y + rota[position][rt][0][1]]] &&
-    //         board[point1_x + rota[position][rt][1][0]===0&&board[point1_y + rota[position][rt][1][1]]]
+    //         board[poin_t1x + rota[position][rt][1][0]===0&&board[point1_y + rota[position][rt][1][1]]]
     //     )return true
     //     else false
     // }
 }
 
-function movingBlock(board,point1_x,point1_y,time,target){
+function movingBlock(board,point1_x,point1_y,time){
     let queueBlock = []
     queueBlock.push([point1_x,point1_y,target])
     while(queueBlock.length!==0){
