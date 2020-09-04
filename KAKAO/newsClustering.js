@@ -53,8 +53,7 @@ function solution(str1, str2) {
     let str1분자 = 0
     let str2분자 = 0
     let 분모 = 0
-    //0. 배열 만들기
-    
+
     for(let i=0;i<str1s.length-1;i++){
         let tmp = ''
         if(checkAlpabet(str1s[i])&&checkAlpabet(str1s[i+1])){
@@ -86,12 +85,6 @@ function solution(str1, str2) {
         
         if(str2Set.get(str1Arr[i])!==undefined && str2Set.get(str1Arr[i]) !== 0) str2Set.set(str1Arr[i],str2Set.get(str1Arr[i])-1)
     }
-    // console.log('a',str2Set)
-
-    // console.log(str1Arr)
-    // console.log(str2Arr)
-    // console.log(str1Set)
-    // console.log(str2Set)
 
     분모 = str1Arr.length + str2Arr.length
     for(let i of str1Set){
@@ -100,22 +93,10 @@ function solution(str1, str2) {
     for(let i of str2Set){
         str2분자 += i[1]
     }
-    // console.log(분모)
-    // console.log(str1Arr.length-str1분자)
-    // console.log(분모-(str1Arr.length-str1분자))
-    // console.log((str1Arr.length-str1분자)/(분모-(str1Arr.length-str1분자)))
-
-    // if( (str1Arr.length===str1분자 && str2Arr.length===str2분자) || (str1분자===0&&str2분자===0)) return 65536
     if( (str1Arr.length===0 && str2Arr.length===0) || (분모-(str1Arr.length-str1분자)) ===0) return 65536
     else{
         return parseInt((str1Arr.length-str1분자)/(분모-(str1Arr.length-str1분자))*65536)
     }
-   
-    //1. 영어아닌거 다 제외
-
-    //2. 모두 대문자
-
-    
 }
 
 // const str1 = 'FRANCE'

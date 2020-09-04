@@ -206,6 +206,7 @@ m	    n	   board	                                                  answer
 function solution(m, n, board) {
     board = board.map(v => v.split(''));
 
+    // console.log(board)
     while (true) {
         let founded = [];
 
@@ -217,7 +218,8 @@ function solution(m, n, board) {
                 }
             }
         }
-
+        
+        // console.log(board)
         if (! founded.length) 
           return [].concat(...board).filter(v => ! v).length;
 
@@ -248,12 +250,12 @@ function solution(m, n, board) {
 // const m=4  
 // const n=5
 // const board=["CCBDE", "AAADE", "AAABF", "CCBBF"]
-const m=4  
-const n=5
-const board=["BB","AA","AA","BB"]
+// const m=4  
+// const n=5
+// const board=["BB","AA","AA","BB"]
 
-// const m=6  
-// const n=6
-// const board=["TTTANT", "RRFACC", "RRRFCC", "TRRRAA", "TTMMMF", "TMMTTJ"]
+const m=6  
+const n=6
+const board=["TTTANT", "RRFACC", "RRRFCC", "TRRRAA", "TTMMMF", "TMMTTJ"]
 
 console.log(solution(m, n, board))

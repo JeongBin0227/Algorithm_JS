@@ -53,9 +53,6 @@ function solution(n, t, m, timetable) {
     
 
     for(let i=0;i<availableTime.length;i++){
-        console.log(sortTimetable)
-        console.log(availableTime)
-        console.log(answer)
         if(i!==availableTime.length-1){
             for(let j=0;j<m;j++){
                 if(availableTime[i]>=sortTimetable[0]) sortTimetable.shift()
@@ -74,9 +71,6 @@ function solution(n, t, m, timetable) {
             answer = availableTime[i]
         }
     }
-    console.log(sortTimetable)
-    console.log(availableTime)
-    console.log(answer)
 
     let tmp = ''
     tmp += Math.floor(answer / 60)
@@ -88,10 +82,10 @@ function solution(n, t, m, timetable) {
     return tmp;
 }
 
-const n = 1
-const t = 1
-const m = 5
-const timetable = ["08:00", "08:01", "08:02", "08:03"]
+// const n = 1
+// const t = 1
+// const m = 5
+// const timetable = ["08:00", "08:01", "08:02", "08:03"]
 
 // const n = 2
 // const t = 10
@@ -102,6 +96,7 @@ const timetable = ["08:00", "08:01", "08:02", "08:03"]
 // const t = 1
 // const m = 1
 // const timetable = ["23:59"]
+
 // const n = 1
 // const t = 1
 // const m = 1

@@ -89,7 +89,6 @@ function solution(relation) {
             else break
 
             if(i===relation.length-1){
-              console.log(relationSum[position])
               relationSum = relationSum.filter(a=>{
                 let check = 0
                 for(let w=0;w<relationSum[position].length;w++){
