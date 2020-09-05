@@ -71,7 +71,7 @@ function solution(m, musicinfos) {
         answer.sort((a, b) =>{ 
             return b[1] - a[1]
         })
-        return answer[0]
+        return answer[0][0]
     }
 }
 
