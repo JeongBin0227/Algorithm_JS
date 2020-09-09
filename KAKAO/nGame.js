@@ -32,23 +32,17 @@ function solution(n, t, m, p) {
     var answer = '';
     let count = 0
     const talkArr= []
-    const dec = 123;
 
     for(let i =0;i<(t*m)+p;i++){
         const tmp = i.toString(n).split('')
-        console.log(tmp)
         tmp.forEach(element => {
             talkArr.push(element.toUpperCase())
             count++
         });
     }
-
-    console.log(talkArr)
     for(let i =0;i<t;i++){
-
         answer+=talkArr[p-1+(i*m)]
     }
-    
     return answer;
 }
 
