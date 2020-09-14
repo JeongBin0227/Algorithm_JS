@@ -27,13 +27,8 @@ Single(S), Double(D), Triple(T)은 점수마다 하나씩 존재한다.
 `
 function solution(dartResult) {
     let answer = 0;
-    let tmp = 0
     let num = new Array(3).fill(-1)
-    let curNum = 0
     let position = 0
-    let firstNum = 0
-    let secondNum = 1
-    let thirdNum = 2
 
     const dartResults = dartResult.split('')
     let numCheck = false
@@ -72,11 +67,7 @@ function solution(dartResult) {
                 }
                 break;
         }
-        console.log(position)
-        console.log(num)
-
     });
-    console.log(num)
     num.forEach(a => answer+=a)
     return answer;
 }
