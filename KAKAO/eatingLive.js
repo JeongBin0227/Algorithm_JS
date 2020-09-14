@@ -26,66 +26,129 @@ food_times	   k	  result
 `
 
 function solution(food_times, k) {
-    let answer = 0;
-    let tmp = 0
-    // let zeroCount = food_times.length
-    let zeroCount = 0
-    let zeroCheck = false
-    let minPosition = -1
-    let infinityNum = 0
+    let sortFood = []
     let foodSum = 0
+    let tmpSum = 0
+    let choiceFood = 0
 
-    food_times.forEach(food=>foodSum+=food)
+    food_times.forEach((food,index) => {
+        foodSum+=food
+        sortFood.push([food,index])
+    });
+
     if(k>foodSum) return -1
-    
-    while(k>=(food_times.length-zeroCount)){
-        let minNum = Infinity
-        zeroCount=0
-        for(let i=0;i<food_times.length;i++){
-            if(minNum>=food_times[i]&&food_times[i]!==0){
-                minNum = food_times[i]
-            }
-            if(food_times[i]===0) zeroCount++
-        }
-        if(k - (food_times.length-zeroCount) * minNum>=0){
-            k = k - (food_times.length-zeroCount) * minNum
 
-            zeroCount = 0
-            for(let i=0;i<food_times.length;i++){
-                if(food_times[i]!==0) {
-                    food_times[i] -= minNum
-                }
-                if(food_times[i]===0) zeroCount++
-            
-            }
-        }
+    sortFood.sort((a,b)=>{
+        if(a[0]-b[0]>0)return 1
+        else if(a[0]-b[0]>0)return -1
         else{
-            while(0>k - (food_times.length-zeroCount) * minNum){
-                minNum-=1   
-            }
-            k = k - (food_times.length-zeroCount) * minNum
-            break
+            if(b[1]-a[1]>=0)return 1
+            else return -1
         }
-    }
+    })
+    
 
-    let position = 0
-    while(k!==0){
-        position = position%food_times.length
-        if(food_times[position]!==0) {
-            food_times[position] -=1
-            k--
-            minPosition=position
+    for (let i = 0; i < sortFood.length; i++) {
+        if(sortFood[i][0]>tmpSum){
+            console.log('ac')
+            console.log(k-(sortFood.length-i)*(sortFood[i][0]-tmpSum))
+            if(k-(sortFood.length-i)*(sortFood[i][0]-tmpSum)>0){
+                k-=(sortFood.length-i)*(sortFood[i][0]-tmpSum)
+                tmpSum = sortFood[i][0]
+                choiceFood=i
+            }
+            else{
+                let tmp=1
+                while(0>k-(sortFood.length-i)*(sortFood[i][0]-tmpSum-tmp)){
+                    tmp++
+                }
+                k-=(sortFood.length-i)*(sortFood[i][0]-tmpSum-tmp)
+                break
+            }
         }
-        position++
     }
-    for(let i=0;i<food_times.length;i++){
-        minPosition = (minPosition + 1)%food_times.length
-        if(food_times[minPosition]!==0) return minPosition+1
+    console.log(sortFood)
+    console.log('a',k)
+    console.log('b',tmpSum)
+    for (let i = 0; i < food_times.length; i++) {
+        if(food_times[i]>tmpSum) k-=1
+        if(k===-1)return i+1
     }
+    return 1
+    // if(k===0) return 
+    // console.log(sortFood)
+
+    // // choiceFood++
+    // // while(k!==-1){
+    // //     sortFood[choiceFood][0]
+    // // }
+    // console.log('a',choiceFood)
+    // console.log('b',tmpSum)
+    // console.log('c',k)
+    // let zeroCount = 0
+    // let minPosition = -1
+    // let tmpSum = 0
+
+    // food_times.forEach(food=>foodSum+=food)
+    // if(k>foodSum) return -1
+    
+    // while(k>=(food_times.length-zeroCount)){
+    //     let minNum = Infinity
+    //     zeroCount=0
+    //     for(let i=0;i<food_times.length;i++){
+    //         if(minNum>=food_times[i]&&food_times[i]!==0){
+    //             minNum = food_times[i]
+    //         }
+    //         if(food_times[i]===0) zeroCount++
+    //     }
+    //     if(k - (food_times.length-zeroCount) * minNum>=0){
+    //         k = k - (food_times.length-zeroCount) * minNum
+
+    //         zeroCount = 0
+    //         tmpSum += minNum
+    //         // for(let i=0;i<food_times.length;i++){
+    //         //     if(food_times[i]!==0) {
+    //         //         food_times[i] -= minNum
+    //         //     }
+    //         //     if(food_times[i]===0) zeroCount++
+            
+    //         // }
+    //     }
+    //     else{
+    //         while(0>k - (food_times.length-zeroCount) * minNum){
+    //             minNum-=1   
+    //         }
+    //         k = k - (food_times.length-zeroCount) * minNum
+    //         zeroCount = 0
+    //         // for(let i=0;i<food_times.length;i++){
+    //         //     if(food_times[i]!==0) {
+    //         //         food_times[i] -= minNum
+    //         //     }
+    //         // }
+    //         break
+    //     }
+    // }
+
+    // let position = 0
+    // while(k!==0){
+    //     position = position%food_times.length
+    //     if(food_times[position]!==0) {
+    //         food_times[position] -=1
+    //         k--
+    //         minPosition=position
+    //     }
+    //     position++
+    // }
+    // for(let i=0;i<food_times.length;i++){
+    //     minPosition = (minPosition + 1)%food_times.length
+    //     if(food_times[minPosition]!==0) return minPosition+1
+    // }
 }
 
 // const food_times = [3, 1, 2]
 // const k = 5
-const food_times = [1,1,1,1,1,1 ]
-const k = 1
+const food_times = [1,1,1,1]
+// const food_times = [4,1,1,5   ]
+// const food_times = [4,1,1,5   ]
+const k = 4
 console.log(solution(food_times, k))
