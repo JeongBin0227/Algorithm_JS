@@ -1,37 +1,65 @@
-function solution(foods) {
-    let answer = 0
-  
-    const sum = foods.reduce((accum, value) => accum + value, 0)
-  
-    if (sum % 3 !== 0) return 0
-  
-    const each = sum / 3
-  
-    const digests = [0, 0, 0]
-  
-    for (let i = 0; i < foods.length; i++) {
-      digests[0] += foods[i]
-  
-      if (digests[0] === each) {
-        digests[1] = 0
-  
-        for (let j = i + 1; j < foods.length; j++) {
-          digests[1] += foods[j]
-  
-          if (digests[1] === each) {
-            digests[2] = 0
-  
-            for (let k = j + 1; k < foods.length; k++) {
-              digests[2] += foods[k]
-  
-              if (digests[2] === each && k === foods.length - 1) {
-                answer++
-              }
-            }
-          }
-        }
+function solution(n) {
+  const oneCount = (n) => {
+      let count = 0;
+      while (n != 0) {
+          n % 2 == 1 ? count++ : count;
+          n = parseInt(n / 2);
       }
-    }
-  
-    return answer
+      return count;
   }
+
+  const oneCountWithCount = (n, cnt) => {
+      let count = 0;
+      while (n != 0) {
+          n % 2 == 1 ? count++ : count;
+          n = parseInt(n / 2);
+
+          if (count > cnt) {
+              return 0;
+          }
+      }
+      return count;
+  }
+
+  const getFactorialNum = (n) => {
+      if (n < 1) {
+          return 0;
+      }
+
+      let result = 1;
+      for (let i = 1; i <= n; i++) {
+          result *= i;
+      }
+      return result;
+  }
+
+  const getCombinationNum = (n, r) => {
+      if (n < r) {
+          return 0;
+      }
+      if (r === 0 || n === r) {
+          return 1;
+      }
+
+      return getFactorialNum(n) / (getFactorialNum(r) * getFactorialNum(n - r));
+  }
+
+  const getExtraCount = (n, length, count) => {
+      let result = 0;
+      for (let i = Math.pow(2, decimalLength - 1) + 1; i < n; i++) {
+          if (oneCountWithCount(i, count) === count) {
+              result++;
+          }
+      }
+      return result;
+  } 
+
+  let decimalLength = n.toString(2).length;
+  let count = oneCount(n);
+  let answer = getCombinationNum(decimalLength - 1, count);
+  answer += getExtraCount(n, decimalLength, count);
+
+  return answer;
+}
+
+console.log(solution(9));
